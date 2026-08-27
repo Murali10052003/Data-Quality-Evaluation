@@ -1,0 +1,20 @@
+# Core data processing
+pandas
+numpy
+
+
+
+# Database connectivity
+sqlalchemy
+psycopg2-binary
+
+# Configuration
+pyyaml
+python-dotenv
+
+# Local package (install from wheel)
+# pip install dqeval-0.1.0-py3-none-any.whl
+
+# Optional engines (install as needed)
+# pyspark          # Apache Spark engine
+# ray[data]        # Ray distributed engine

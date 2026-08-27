@@ -1,0 +1,62 @@
+# Environment variables - never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs and failed output
+failed_logs/
+*.log
+*.jsonl
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Spark data pipelines
+dq_pipeline_spark/
+main_spark.py
+
+# Disabled – BatchDQRunner reads the table twice when FULL_LOAD_REQUIRED evals
+# are present (once chunked + once full load), making it slower than DQRunner.
+# Use DQRunner (runner.py) directly for now.
+#dq_pipeline/batch_runner.py
+
+streamlit_app.py
+frontend/node_modules/
+frontend/dist/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+ui_designs/

@@ -1,0 +1,113 @@
+run_id: "123e4567-e89b-12d3-a456-426614174000"
+evals:
+  - type: "duplicate"
+    columns: ["id"]
+
+  - type: "empty"
+    columns: ["name", "age"]
+
+  - type: "unique"
+    columns: ["id"]
+
+  - type: "dtype"
+    columns:
+      id: int
+      name: str
+      age: int
+
+  - type: "stringformat"
+    column: "email"
+    pattern: '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'
+
+  - type: "schemavalidation"
+    expected_schema:
+      id: int
+      name: object
+      age: int
+
+  - type: "range"
+    column: "age"
+    min: 18
+    max: 65
+
+  - type: "categoricalvalues"
+    column: "department"
+    allowed_values: ["HR", "Finance", "Engineering"]
+
+  - type: "statisticaldistribution"
+    column: "salary"
+    mode: "feature_drift"
+    reference_stats:
+      mean: 70000
+      std: 5000
+    tolerance: 0.1
+
+  - type: "statisticaldistribution"
+    column: "label"
+    mode: "label_balance"
+
+  - type: "datafreshness"
+    column: "created_at"
+    freshness_threshold: "-2h"
+
+  - type: "referentialintegrity"
+    column: "user_id"
+    reference_df: "ref_df"
+    reference_column: "id"
+
+  - type: "rowcount"
+    min: 30
+    max: 100
+
+  - type: "custom"
+    column: "score"
+    func: "lambda x: x >= 0"
+
+  - type: "custom"
+    func: "lambda row: row['age'] >= 18 and row['country'] == 'US'"
+
+  # ---------------------------------------------------------------------------
+  # Unicode Validation
+  # ---------------------------------------------------------------------------
+  # Compares Unicode text columns between source (the loaded DataFrame) and a
+  # target DataFrame (resolved at runtime from df_mapping by the config runner).
+  #
+  # Required keys
+  # -------------
+  # key_column   : Column used to inner-join source and target.  Every row
+  #                matched on this key will have its text columns compared.
+  # columns      : List of source column names containing Unicode text to check.
+  # target_df    : When running via DqEvalConfigRunner pass a string name;
+  #                the runner resolves it against the df_mapping dict you supply.
+  #                When instantiating UnicodeValidationEval directly, pass the
+  #                actual pandas.DataFrame object.
+  #
+  # Optional keys
+  # -------------
+  # target_columns      : Column names in the target DataFrame corresponding to
+  #                        `columns`.  Defaults to the same names as `columns`.
+  #                        Use this when source and target have different column
+  #                        naming conventions (e.g. snake_case vs camelCase).
+  # normalization_form  : Unicode normalisation form — NFC (default), NFD,
+  #                        NFKC, or NFKD.  NFC matches PostgreSQL's built-in
+  #                        normalize(text, NFC) function, making comparisons
+  #                        consistent with any DB-level normalisation in your
+  #                        Azure PostgreSQL pipeline.
+  # batch_size          : Number of merged rows processed per batch.  Tune this
+  #                        to control memory pressure when source/target tables
+  #                        are large.  Defaults to 1000.
+
+  # Minimal example — same column names, NFC normalisation, default batch size
+  - type: "unicodevalidation"
+    key_column: "customer_id"
+    columns: ["full_name", "address_line1", "email"]
+    target_df: "target_customers_df"
+
+  # Full example — different column names in target, custom form and batch size
+  - type: "unicodevalidation"
+    key_column: "employee_id"
+    columns: ["first_name", "last_name", "job_title"]
+    target_df: "target_employees_df"
+    target_columns: ["firstName", "lastName", "jobTitle"]
+    normalization_form: "NFC"
+    batch_size: 500
