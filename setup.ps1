@@ -1,4 +1,4 @@
-# ── DQ Eval  ·  One-time setup script ────────────────────────────────────────
+﻿# ── DQ Eval  ·  One-time setup script ────────────────────────────────────────
 # Run this after cloning the repo. It will:
 #   1. Collect your PostgreSQL connection details
 #   2. Create the .env file
@@ -155,6 +155,13 @@ CREATE INDEX IF NOT EXISTS idx_dq_results_status_ts    ON dq_results (status, ru
 CREATE INDEX IF NOT EXISTS idx_dq_results_ts_status    ON dq_results (run_timestamp, status);
 CREATE INDEX IF NOT EXISTS idx_dq_results_table_method ON dq_results (table_name, dqmethod, status);
 "@
+
+if (-not (Get-Command psql -ErrorAction SilentlyContinue)) {
+    Write-Host "  psql not found. Installing PostgreSQL via winget..." -ForegroundColor Cyan
+    winget install --id PostgreSQL.PostgreSQL.17 --source winget --accept-package-agreements --accept-source-agreements --silent
+    $pgBin = "C:\Program Files\PostgreSQL\17\bin"
+    if (Test-Path $pgBin) { $env:PATH += ";$pgBin" }
+}
 
 $psqlArgs = @("-h", $dbHost, "-p", $dbPort, "-U", $dbUser, "-d", $dbName, "-c", $createSQL)
 if ($sslArg) { $psqlArgs += @("--set=sslmode=$sslMode") }
