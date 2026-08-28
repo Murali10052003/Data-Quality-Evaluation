@@ -6,7 +6,8 @@ numpy
 
 # Database connectivity
 sqlalchemy
-psycopg[binary]
+psycopg
+psycopg-binary
 
 # Configuration
 pyyaml
