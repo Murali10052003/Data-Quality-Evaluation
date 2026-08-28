@@ -21,8 +21,8 @@ Step-by-step guide to connect your own PostgreSQL database and run DQ Eval local
 ## 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd Dqeval_notebooks
+git clone "https://github.com/Murali10052003/Data-Quality-Evaluation.git"
+cd Data-Quality-Evaluation
 ```
 
 ---
@@ -128,6 +128,22 @@ CREATE TABLE dq_results (
 ## 4. Install Dependencies
 
 ### 4.1 Python (backend + pipeline)
+
+Create and activate a virtual environment first:
+
+**PowerShell (Windows):**
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
+
+**Bash/Zsh (macOS/Linux):**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Then install dependencies:
 
 ```bash
 pip install -r requirements.txt
