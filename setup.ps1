@@ -89,19 +89,13 @@ Write-Host "  .env created." -ForegroundColor Green
 # ── Step 3: Install Python dependencies ──────────────────────────────────────
 Write-Host "`n[3/5] Installing Python dependencies..." -ForegroundColor Yellow
 
-# Verify Python version — psycopg2-binary needs 3.10–3.12
 $pyVer = python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
 Write-Host "  Python version: $pyVer" -ForegroundColor White
-$minor = [int]($pyVer.Split('.')[1])
-if ($minor -gt 12) {
-    Write-Host "  WARNING: psycopg2-binary may not have prebuilt wheels for Python $pyVer." -ForegroundColor Yellow
-    Write-Host "  If install fails, use Python 3.10, 3.11, or 3.12." -ForegroundColor Yellow
-}
 
 pip install -r requirements.txt --quiet
 if ($LASTEXITCODE -ne 0) {
     Write-Host "  ERROR: pip install (root) failed." -ForegroundColor Red
-    Write-Host "  If psycopg2-binary failed, install Python 3.10–3.12 and retry." -ForegroundColor Yellow
+    Write-Host "  Check the error output above and retry." -ForegroundColor Yellow
     pause; exit 1
 }
 

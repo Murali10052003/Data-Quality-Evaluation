@@ -9,7 +9,7 @@ import uuid
 from pathlib import Path
 from typing import Optional
 
-import psycopg2
+import psycopg
 import pandas as pd
 from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv
@@ -61,7 +61,7 @@ def _get_token() -> str:
 
 def _create_db_connection():
     """Creator passed to SQLAlchemy so every new pool connection uses a fresh token."""
-    return psycopg2.connect(
+    return psycopg.connect(
         host=_host,
         port=_port,
         dbname=_name,
@@ -70,7 +70,7 @@ def _create_db_connection():
         sslmode=_ssl,
     )
 
-engine = create_engine("postgresql+psycopg2://", creator=_create_db_connection, pool_pre_ping=True)
+engine = create_engine("postgresql+psycopg://", creator=_create_db_connection, pool_pre_ping=True)
 
 app = FastAPI(title="DQ Eval API", version="1.0.0")
 # Extra deployed frontend origin(s), comma-separated (e.g. the Static Web App hostname)

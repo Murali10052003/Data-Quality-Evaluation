@@ -252,7 +252,7 @@ DQ_BATCH_SIZE=1000000 python main.py
 
 | Problem | Solution |
 |---|---|
-| `psycopg2` install fails | Install `psycopg2-binary` instead: `pip install psycopg2-binary` |
+| `psycopg` install fails | Run `pip install psycopg[binary]` — requires Python 3.8+ |
 | `FATAL: password authentication failed` | Double-check `DQ_DB_USER` and `DQ_DB_PASSWORD` in `.env` |
 | `FATAL: no pg_hba.conf entry for host` | Add your IP to the PostgreSQL server's `pg_hba.conf` or Azure firewall rules |
 | `SSL connection is required` | Set `sslmode=require` or configure SSL on your Postgres server |

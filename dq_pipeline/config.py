@@ -55,7 +55,7 @@ class DBConfig:
     def url(self) -> str:
         """SQLAlchemy connection URL (password never logged)."""
         return (
-        f"postgresql+psycopg2://{quote_plus(self.user)}:{quote_plus(self.password)}"
+        f"postgresql+psycopg://{quote_plus(self.user)}:{quote_plus(self.password)}"
         f"@{self.host}:{self.port}/{self.name}?sslmode=require"
     )
 
