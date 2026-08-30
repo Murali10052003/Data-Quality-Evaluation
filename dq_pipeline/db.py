@@ -102,6 +102,10 @@ def insert_dataframe(
         return
 
     logger.info("Inserting %d row(s) into %s.%s …", len(df), schema, table)
+    if "run_timestamp" in df.columns:
+        df = df.copy()
+        # ISO strings from the engines must become tz-aware datetimes for TIMESTAMPTZ.
+        df["run_timestamp"] = pd.to_datetime(df["run_timestamp"], utc=True)
     df.to_sql(
         name=table,
         con=engine,

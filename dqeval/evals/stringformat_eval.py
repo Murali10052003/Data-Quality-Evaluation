@@ -4,7 +4,7 @@ from dqeval.utils.exceptions import ColumnNotFoundException
 from dqeval.utils.config_validator import ConfigValidator
 
 class StringFormatEval(BaseDQEval):
-    """
+    r"""
     String Format Check Rule:
     Validates string columns against a specified regex pattern.
 
